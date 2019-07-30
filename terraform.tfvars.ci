@@ -1,0 +1,4 @@
+location_short="frc"
+client_name="test"
+environment="test"
+stack="ci"
