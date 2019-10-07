@@ -53,9 +53,14 @@ variable "policy_mode" {
   type        = "string"
 }
 
-variable "policy_assignment_scope" {
-  description = "The Scope at which the Policy Assignment should be applied, which must be a Resource ID (such as Subscription e.g. `/subscriptions/00000000-0000-0000-000000000000` or a Resource Group e.g.`/subscriptions/00000000-0000-0000-000000000000/resourceGroups/myResourceGroup`)."
-  type        = "string"
+variable "policy_assignment_scopes" {
+  description = "List of Scope at which the Policy Assignment should be applied, which must be a Resource ID (such as Subscription e.g. `/subscriptions/00000000-0000-0000-000000000000` or a Resource Group e.g.`/subscriptions/00000000-0000-0000-000000000000/resourceGroups/myResourceGroup`)."
+  type        = "list"
+}
+
+variable "policy_assignment_scopes_length" {
+  description = "List length."
+  default     = "1"
 }
 
 variable "policy_assignment_display_name" {

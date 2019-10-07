@@ -11,13 +11,15 @@ resource "azurerm_policy_definition" "main-policy" {
 }
 
 resource "azurerm_policy_assignment" "assign-policy" {
-  name = "${coalesce(var.policy_custom_name, local.policy_name)}-assignment"
+  name = "${coalesce(var.policy_custom_name, local.policy_name)}-assignment${count.index}"
 
-  scope                = "${var.policy_assignment_scope}"
+  scope                = "${element(var.policy_assignment_scopes, count.index)}"
   policy_definition_id = "${azurerm_policy_definition.main-policy.id}"
 
   display_name = "${var.policy_assignment_display_name}"
   description  = "${var.policy_assignment_description}"
 
   parameters = "${var.policy_assignment_parameters_values}"
+
+  count = "${var.policy_assignment_scopes_length}"
 }
