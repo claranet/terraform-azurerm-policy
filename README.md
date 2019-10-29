@@ -1,6 +1,64 @@
 # Azure Policy
 
-This module creates an Azure Policy and assign it to a list of scopes (Azure Susbcriptions or Resource Groups).
+This module creates an Azure Policy and assign it to a list of scopes IDs (Azure Susbcriptions or Resource Groups).
+
+## Requirements
+
+* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.31
+
+## Terraform version compatibility
+
+| Module version | Terraform version |
+|----------------|-------------------|
+| >= 2.x.x       | 0.12.x            |
+| <  2.x.x       | 0.11.x            |
+
+## Usage
+
+This module is optimized to work with the [Claranet terraform-wrapper](https://github.com/claranet/terraform-wrapper) tool
+which set some terraform variables in the environment needed by this module.
+More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
+
+```hcl
+module "azure-region" {
+  source  = "claranet/regions/azurerm"
+  version = "x.x.x"
+
+  azure_region = "${var.azure_region}"
+}
+
+module "rg" {
+  source  = "claranet/rg/azurerm"
+  version = "x.x.x"
+
+  location    = "${module.azure-region.location}"
+  client_name = "${var.client_name}"
+  environment = "${var.environment}"
+  stack       = "${var.stack}"
+}
+
+module "policy-tags" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/features/policy.git?ref=x.x.x"
+
+  client_name = "${var.client_name}"
+  environment = "${var.environment}"
+
+  location_short = "${module.az-region.location_short}"
+  stack          = "${var.stack}"
+
+  name_prefix = "tags"
+
+  policy_rule_content       = "${local.policy_tags_rule}"
+  policy_parameters_content = "${local.policy_tags_parameters}"
+  policy_mode               = "Indexed"
+
+  policy_assignment_parameters_values = "${local.policy_tags_parameters_assign}"
+  policy_assignment_display_name      = "Tags key audit check"
+  policy_assignment_description       = "Tags key audit check for the assigned scopes (${join(",", local.tags_key_to_check)})"
+  policy_assignment_scopes            = ["${module.rg.resource_group_id}"]
+}
+
+```
 
 ## Inputs
 
@@ -12,7 +70,7 @@ This module creates an Azure Policy and assign it to a list of scopes (Azure Sus
 | name\_prefix | Optional prefix for subnet names | string | `""` | no |
 | policy\_assignment\_description | A description to use for this Policy Assignment. | string | `""` | no |
 | policy\_assignment\_display\_name | A friendly display name to use for this Policy Assignment. | string | n/a | yes |
-| policy\_assignment\_parameters\_values | Parameters for the policy definition. This field is a JSON object that maps to the Parameters field from the Policy Definition. | string | n/a | yes |
+| policy\_assignment\_parameters\_values | Parameters for the policy definition. This field is a JSON object that maps to the Parameters field from the Policy Definition. | string | n/a | yes |   
 | policy\_assignment\_scopes | List of Scope at which the Policy Assignment should be applied, which must be a Resource ID (such as Subscription e.g. `/subscriptions/00000000-0000-0000-000000000000` or a Resource Group e.g.`/subscriptions/00000000-0000-0000-000000000000/resourceGroups/myResourceGroup`). | list | n/a | yes |
 | policy\_assignment\_scopes\_length | List length. | string | `"1"` | no |
 | policy\_custom\_name | Optional custom name override for Azure policy | string | `""` | no |
