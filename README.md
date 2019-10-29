@@ -1,4 +1,5 @@
 # Azure Policy
+[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/policy/azurerm/)
 
 This module creates an Azure Policy and assign it to a list of scopes IDs (Azure Susbcriptions or Resource Groups).
 
@@ -38,7 +39,8 @@ module "rg" {
 }
 
 module "policy-tags" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/features/policy.git?ref=x.x.x"
+  source  = "claranet/policy/azurerm"
+  version = "x.x.x"
 
   client_name = "${var.client_name}"
   environment = "${var.environment}"
