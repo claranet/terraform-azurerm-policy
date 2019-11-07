@@ -64,39 +64,39 @@ module "azure-region" {
   source  = "claranet/regions/azurerm"
   version = "x.x.x"
 
-  azure_region = "${var.azure_region}"
+  azure_region = var.azure_region
 }
 
 module "rg" {
   source  = "claranet/rg/azurerm"
   version = "x.x.x"
 
-  location    = "${module.azure-region.location}"
-  client_name = "${var.client_name}"
-  environment = "${var.environment}"
-  stack       = "${var.stack}"
+  location    = module.azure-region.location
+  client_name = var.client_name
+  environment = var.environment
+  stack       = var.stack
 }
 
 module "policy-tags" {
   source  = "claranet/policy/azurerm"
   version = "x.x.x"
 
-  client_name = "${var.client_name}"
-  environment = "${var.environment}"
+  client_name = var.client_name
+  environment = var.environment
 
-  location_short = "${module.azure-region.location_short}"
-  stack          = "${var.stack}"
+  location_short = module.azure-region.location_short
+  stack          = var.stack
 
   policy_name_prefix = "tags"
 
-  policy_rule_content       = "${local.policy_tags_rule}"
-  policy_parameters_content = "${local.policy_tags_parameters}"
+  policy_rule_content       = local.policy_tags_rule
+  policy_parameters_content = local.policy_tags_parameters
   policy_mode               = "Indexed"
 
-  policy_assignment_parameters_values = "${local.policy_tags_parameters_assign}"
+  policy_assignment_parameters_values = local.policy_tags_parameters_assign
   policy_assignment_display_name      = "Tags key audit check"
   policy_assignment_description       = "Tags key audit check for the assigned scopes (${join(",", local.tags_key_to_check)})"
-  policy_assignment_scopes            = ["${module.rg.resource_group_id}"]
+  policy_assignment_scopes            = [module.rg.resource_group_id]
 }
 
 ```
