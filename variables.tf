@@ -19,7 +19,7 @@ variable "stack" {
   type        = "string"
 }
 
-variable "name_prefix" {
+variable "policy_name_prefix" {
   description = "Optional prefix for subnet names"
   type        = "string"
   default     = ""

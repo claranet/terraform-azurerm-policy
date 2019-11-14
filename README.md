@@ -21,6 +21,45 @@ which set some terraform variables in the environment needed by this module.
 More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
 
 ```hcl
+locals {
+  policy_tags_rule = <<POLICY_RULE
+{
+    "if": {
+      "allof": [
+        {
+            "field": "[concat('tags.*')]",
+            "in": "[parameters('listOfTagKeys')]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "audit"
+    }
+}
+POLICY_RULE
+
+  policy_tags_parameters = <<PARAMETERS
+{
+    "listOfTagKeys": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Tag keys",
+            "description": "Tag keys to check"
+        }
+    }
+}
+PARAMETERS
+
+  policy_tags_parameters_assign = <<PARAMETERS
+{
+    "listOfTagKeys": {
+        "value": ${jsonencode(local.tags_key_to_check)}
+    }
+}
+PARAMETERS
+
+  tags_key_to_check = ["env", "stack", "BU"]
+}
 module "azure-region" {
   source  = "claranet/regions/azurerm"
   version = "x.x.x"
@@ -45,10 +84,10 @@ module "policy-tags" {
   client_name = "${var.client_name}"
   environment = "${var.environment}"
 
-  location_short = "${module.az-region.location_short}"
+  location_short = "${module.azure-region.location_short}"
   stack          = "${var.stack}"
 
-  name_prefix = "tags"
+  policy_name_prefix = "tags"
 
   policy_rule_content       = "${local.policy_tags_rule}"
   policy_parameters_content = "${local.policy_tags_parameters}"
@@ -69,7 +108,7 @@ module "policy-tags" {
 | client\_name | Client name/account used in naming | string | n/a | yes |
 | environment | Project environment | string | n/a | yes |
 | location\_short | Short string for Azure location. | string | n/a | yes |
-| name\_prefix | Optional prefix for subnet names | string | `""` | no |
+| policy\_name\_prefix | Optional prefix for subnet names | string | `""` | no |
 | policy\_assignment\_description | A description to use for this Policy Assignment. | string | `""` | no |
 | policy\_assignment\_display\_name | A friendly display name to use for this Policy Assignment. | string | n/a | yes |
 | policy\_assignment\_parameters\_values | Parameters for the policy definition. This field is a JSON object that maps to the Parameters field from the Policy Definition. | string | n/a | yes |   
