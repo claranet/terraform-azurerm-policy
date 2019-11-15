@@ -1,0 +1,10 @@
+location_short="frc"
+client_name="test"
+environment="test"
+stack="ci"
+
+policy_rule_content="{}"
+policy_assignment_display_name="test"
+policy_assignment_parameters_values="{}"
+policy_parameters_content="{}"
+policy_assignment_scopes=[""]
