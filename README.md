@@ -5,7 +5,7 @@ This module creates an Azure Policy and assign it to a list of scopes IDs (Azure
 
 ## Requirements
 
-* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.31
+* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.36
 
 ## Terraform version compatibility
 
