@@ -41,10 +41,12 @@ variable "policy_description" {
 
 variable "policy_rule_content" {
   description = "The policy rule for the policy definition. This is a json object representing the rule that contains an if and a then block."
+  type        = string
 }
 
 variable "policy_parameters_content" {
   description = "Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition."
+  type        = string
 }
 
 variable "policy_mode" {
@@ -60,8 +62,8 @@ variable "policy_assignment_scopes" {
 
 variable "policy_assignment_scopes_length" {
   description = "List length."
-  type        = string
-  default     = "1"
+  type        = number
+  default     = 1
 }
 
 variable "policy_assignment_display_name" {
@@ -77,5 +79,6 @@ variable "policy_assignment_description" {
 
 variable "policy_assignment_parameters_values" {
   description = "Parameters for the policy definition. This field is a JSON object that maps to the Parameters field from the Policy Definition."
+  type        = string
 }
 
