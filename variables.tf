@@ -60,6 +60,7 @@ variable "policy_assignment_scopes" {
 
 variable "policy_assignment_scopes_length" {
   description = "List length."
+  type        = string
   default     = "1"
 }
 
