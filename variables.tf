@@ -55,17 +55,6 @@ variable "policy_mode" {
   type        = string
 }
 
-variable "policy_assignment_scopes" {
-  description = "List of Scope at which the Policy Assignment should be applied, which must be a Resource ID (such as Subscription e.g. `/subscriptions/00000000-0000-0000-000000000000` or a Resource Group e.g.`/subscriptions/00000000-0000-0000-000000000000/resourceGroups/myResourceGroup`)."
-  type        = list(string)
-}
-
-variable "policy_assignment_scopes_length" {
-  description = "List length."
-  type        = number
-  default     = 1
-}
-
 variable "policy_assignment_display_name" {
   description = "A friendly display name to use for this Policy Assignment."
   type        = string
@@ -77,8 +66,15 @@ variable "policy_assignment_description" {
   default     = ""
 }
 
-variable "policy_assignment_parameters_values" {
-  description = "Parameters for the policy definition. This field is a JSON object that maps to the Parameters field from the Policy Definition."
-  type        = string
+variable "policy_assignments" {
+  description = "Map with scopes and parameters to apply to each scop"
+  type = map(object({
+    scope      = string,
+    parameters = string
+  }))
 }
 
+variable "location" {
+  description = "Location of the assignment"
+  type        = string
+}
