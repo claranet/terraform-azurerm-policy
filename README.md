@@ -76,27 +76,33 @@ RULE
 PARAMETERS
 
 policy_assignments = {
-    1 = {
-      scope      = "/xxxxxx/xxxxx/zzzzz",
-      parameters = jsonencode({
-        tagName  = {
+    assign_name = {
+      display_name = "The assignment display name"
+      description  = "A good description"
+      scope        = "/xxxxxx/xxxxx/zzzzz",
+      parameters   = jsonencode({
+        tagName    = {
           value = "TagName value"
         },
-        tagValue = {
+        tagValue   = {
           value = "tagValue value"
         }
       })
+      identity_type = "SystemAssigned"
     },
-    2 = {
-      scope      = "/xxxxxx/yyyyyyy/zzzzzzz",
-      parameters = jsonencode({
-        tagName  = {
+    assign_name2 = {
+      display_name = "Another display name"
+      description  = "Another description"
+      scope        = "/xxxxxx/yyyyyyy/zzzzzzz",
+      parameters   = jsonencode({
+        tagName    = {
           value = "2nd tagName value"
         },
-        tagValue = {
+        tagValue   = {
           value = "2nd tagValue value"
         }
       })
+      identity_type   = "None"
     }
 }
 
