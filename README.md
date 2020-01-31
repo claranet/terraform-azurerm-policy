@@ -151,7 +151,7 @@ module "policy-tags" {
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
 | policy\_assignment\_description | A description to use for this Policy Assignment. | `string` | `""` | no |
 | policy\_assignment\_display\_name | A friendly display name to use for this Policy Assignment. | `string` | n/a | yes |
-| policy\_assignments | Map with scopes and parameters to apply to each scop | <pre>map(object({<br>    scope      = string,<br>    parameters = string<br>  }))<br></pre> | n/a | yes |
+| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope         = string,<br>    parameters    = string,<br>    identity_type = string,<br>  }))<br></pre> | n/a | yes |
 | policy\_custom\_name | Optional custom name override for Azure policy | `string` | `""` | no |
 | policy\_description | The description of the policy definition. | `string` | `""` | no |
 | policy\_mode | The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`. | `string` | `"All"` | no |
@@ -166,7 +166,6 @@ module "policy-tags" {
 |------|-------------|
 | policy\_assignment | Azure policy assignments map |
 | policy\_definition\_id | Azure policy ID |
-
 
 ## Related documentation
 

@@ -67,10 +67,13 @@ variable "policy_assignment_description" {
 }
 
 variable "policy_assignments" {
-  description = "Map with scopes and parameters to apply to each scop"
+  description = "Map with maps to configure assignments. Map key is the name of the assignment."
   type = map(object({
-    scope      = string,
-    parameters = string
+    display_name  = string,
+    description   = string,
+    scope         = string,
+    parameters    = string,
+    identity_type = string,
   }))
 }
 
