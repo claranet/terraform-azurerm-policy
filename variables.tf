@@ -1,27 +1,32 @@
 # Generic paramters
+variable "location" {
+  description = "Location of the assignment"
+  type        = string
+}
+
 variable "location_short" {
   description = "Short string for Azure location."
-  type        = "string"
+  type        = string
 }
 
 variable "client_name" {
   description = "Client name/account used in naming"
-  type        = "string"
+  type        = string
 }
 
 variable "environment" {
   description = "Project environment"
-  type        = "string"
+  type        = string
 }
 
 variable "stack" {
   description = "Project stack name"
-  type        = "string"
+  type        = string
 }
 
 variable "policy_name_prefix" {
   description = "Optional prefix for subnet names"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
@@ -29,51 +34,50 @@ variable "policy_name_prefix" {
 
 variable "policy_custom_name" {
   description = "Optional custom name override for Azure policy"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
 variable "policy_description" {
   description = "The description of the policy definition."
-  type        = "string"
+  type        = string
   default     = ""
 }
 
 variable "policy_rule_content" {
   description = "The policy rule for the policy definition. This is a json object representing the rule that contains an if and a then block."
+  type        = string
 }
 
 variable "policy_parameters_content" {
   description = "Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition."
+  type        = string
 }
 
 variable "policy_mode" {
   description = "The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`."
+  type        = string
   default     = "All"
-  type        = "string"
-}
-
-variable "policy_assignment_scopes" {
-  description = "List of Scope at which the Policy Assignment should be applied, which must be a Resource ID (such as Subscription e.g. `/subscriptions/00000000-0000-0000-000000000000` or a Resource Group e.g.`/subscriptions/00000000-0000-0000-000000000000/resourceGroups/myResourceGroup`)."
-  type        = "list"
-}
-
-variable "policy_assignment_scopes_length" {
-  description = "List length."
-  default     = "1"
 }
 
 variable "policy_assignment_display_name" {
   description = "A friendly display name to use for this Policy Assignment."
-  type        = "string"
+  type        = string
 }
 
 variable "policy_assignment_description" {
   description = "A description to use for this Policy Assignment."
-  type        = "string"
+  type        = string
   default     = ""
 }
 
-variable "policy_assignment_parameters_values" {
-  description = "Parameters for the policy definition. This field is a JSON object that maps to the Parameters field from the Policy Definition."
+variable "policy_assignments" {
+  description = "Map with maps to configure assignments. Map key is the name of the assignment."
+  type = map(object({
+    display_name  = string,
+    description   = string,
+    scope         = string,
+    parameters    = string,
+    identity_type = string,
+  }))
 }

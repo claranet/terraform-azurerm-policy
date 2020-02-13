@@ -5,13 +5,13 @@ This module creates an Azure Policy and assign it to a list of scopes IDs (Azure
 
 ## Requirements
 
-* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.31
+* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.36
 
 ## Terraform version compatibility
 
 | Module version | Terraform version |
 |----------------|-------------------|
-| >= 2.x.x       | 0.12.x            |
+| >= 2.x.x       | >= 0.12.6         |
 | <  2.x.x       | 0.11.x            |
 
 ## Usage
@@ -22,81 +22,127 @@ More details about variables set by the `terraform-wrapper` available in the [do
 
 ```hcl
 locals {
-  policy_tags_rule = <<POLICY_RULE
+  policy_tags_rule = <<RULE
 {
-    "if": {
-      "allof": [
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/virtualMachineScaleSets"
+      },
+      {
+        "not": {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "equals": "[parameters('tagValue')]"
+        }
+      }
+    ]
+  },
+  "then": {
+    "effect": "modify",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+      ],
+      "operations": [
         {
-            "field": "[concat('tags.*')]",
-            "in": "[parameters('listOfTagKeys')]"
+          "operation": "addOrReplace",
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "value": "[parameters('tagValue')]"
         }
       ]
-    },
-    "then": {
-      "effect": "audit"
     }
+  }
 }
-POLICY_RULE
+RULE
 
   policy_tags_parameters = <<PARAMETERS
 {
-    "listOfTagKeys": {
-        "type": "Array",
-        "metadata": {
-            "displayName": "Tag keys",
-            "description": "Tag keys to check"
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag, such as 'environment'"
+    }
+  },
+  "tagValue": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Value",
+      "description": "Value of the tag, such as 'production'"
+    }
+  }
+}
+PARAMETERS
+
+policy_assignments = {
+    assign_name = {
+      display_name = "The assignment display name"
+      description  = "A good description"
+      scope        = "/xxxxxx/xxxxx/zzzzz",
+      parameters   = jsonencode({
+        tagName    = {
+          value = "TagName value"
+        },
+        tagValue   = {
+          value = "tagValue value"
         }
+      })
+      identity_type = "SystemAssigned"
+    },
+    assign_name2 = {
+      display_name = "Another display name"
+      description  = "Another description"
+      scope        = "/xxxxxx/yyyyyyy/zzzzzzz",
+      parameters   = jsonencode({
+        tagName    = {
+          value = "2nd tagName value"
+        },
+        tagValue   = {
+          value = "2nd tagValue value"
+        }
+      })
+      identity_type   = "None"
     }
 }
-PARAMETERS
 
-  policy_tags_parameters_assign = <<PARAMETERS
-{
-    "listOfTagKeys": {
-        "value": ${jsonencode(local.tags_key_to_check)}
-    }
-}
-PARAMETERS
 
-  tags_key_to_check = ["env", "stack", "BU"]
 }
 module "azure-region" {
   source  = "claranet/regions/azurerm"
   version = "x.x.x"
 
-  azure_region = "${var.azure_region}"
+  azure_region = var.azure_region
 }
 
 module "rg" {
   source  = "claranet/rg/azurerm"
   version = "x.x.x"
 
-  location    = "${module.azure-region.location}"
-  client_name = "${var.client_name}"
-  environment = "${var.environment}"
-  stack       = "${var.stack}"
+  location    = module.azure-region.location
+  client_name = var.client_name
+  environment = var.environment
+  stack       = var.stack
 }
 
 module "policy-tags" {
   source  = "claranet/policy/azurerm"
   version = "x.x.x"
 
-  client_name = "${var.client_name}"
-  environment = "${var.environment}"
+  client_name = var.client_name
+  environment = var.environment
 
-  location_short = "${module.azure-region.location_short}"
-  stack          = "${var.stack}"
+  location_short = module.azure-region.location_short
+  stack          = var.stack
 
   policy_name_prefix = "tags"
 
-  policy_rule_content       = "${local.policy_tags_rule}"
-  policy_parameters_content = "${local.policy_tags_parameters}"
+  policy_rule_content       = local.policy_tags_rule
+  policy_parameters_content = local.policy_tags_parameters
   policy_mode               = "Indexed"
 
-  policy_assignment_parameters_values = "${local.policy_tags_parameters_assign}"
-  policy_assignment_display_name      = "Tags key audit check"
-  policy_assignment_description       = "Tags key audit check for the assigned scopes (${join(",", local.tags_key_to_check)})"
-  policy_assignment_scopes            = ["${module.rg.resource_group_id}"]
+  policy_assignment_display_name = "Tags to update"
+  policy_assignments = local.policy_assignments
 }
 
 ```
@@ -104,28 +150,27 @@ module "policy-tags" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| client\_name | Client name/account used in naming | string | n/a | yes |
-| environment | Project environment | string | n/a | yes |
-| location\_short | Short string for Azure location. | string | n/a | yes |
-| policy\_name\_prefix | Optional prefix for subnet names | string | `""` | no |
-| policy\_assignment\_description | A description to use for this Policy Assignment. | string | `""` | no |
-| policy\_assignment\_display\_name | A friendly display name to use for this Policy Assignment. | string | n/a | yes |
-| policy\_assignment\_parameters\_values | Parameters for the policy definition. This field is a JSON object that maps to the Parameters field from the Policy Definition. | string | n/a | yes |   
-| policy\_assignment\_scopes | List of Scope at which the Policy Assignment should be applied, which must be a Resource ID (such as Subscription e.g. `/subscriptions/00000000-0000-0000-000000000000` or a Resource Group e.g.`/subscriptions/00000000-0000-0000-000000000000/resourceGroups/myResourceGroup`). | list | n/a | yes |
-| policy\_assignment\_scopes\_length | List length. | string | `"1"` | no |
-| policy\_custom\_name | Optional custom name override for Azure policy | string | `""` | no |
-| policy\_description | The description of the policy definition. | string | `""` | no |
-| policy\_mode | The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`. | string | `"All"` | no |
-| policy\_parameters\_content | Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition. | string | n/a | yes |
-| policy\_rule\_content | The policy rule for the policy definition. This is a json object representing the rule that contains an if and a then block. | string | n/a | yes |
-| stack | Project stack name | string | n/a | yes |
+|------|-------------|------|---------|:-----:|
+| client\_name | Client name/account used in naming | `string` | n/a | yes |
+| environment | Project environment | `string` | n/a | yes |
+| location | Location of the assignment | `string` | n/a | yes |
+| location\_short | Short string for Azure location. | `string` | n/a | yes |
+| policy\_assignment\_description | A description to use for this Policy Assignment. | `string` | `""` | no |
+| policy\_assignment\_display\_name | A friendly display name to use for this Policy Assignment. | `string` | n/a | yes |
+| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope         = string,<br>    parameters    = string,<br>    identity_type = string,<br>  }))<br></pre> | n/a | yes |
+| policy\_custom\_name | Optional custom name override for Azure policy | `string` | `""` | no |
+| policy\_description | The description of the policy definition. | `string` | `""` | no |
+| policy\_mode | The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`. | `string` | `"All"` | no |
+| policy\_name\_prefix | Optional prefix for subnet names | `string` | `""` | no |
+| policy\_parameters\_content | Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition. | `string` | n/a | yes |
+| policy\_rule\_content | The policy rule for the policy definition. This is a json object representing the rule that contains an if and a then block. | `string` | n/a | yes |
+| stack | Project stack name | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| policy\_assignment\_ids | Azure policy assignment IDs |
+| policy\_assignment | Azure policy assignments map |
 | policy\_definition\_id | Azure policy ID |
 
 ## Related documentation
