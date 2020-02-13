@@ -1,4 +1,4 @@
-# v2.0.0 - unreleased
+# v2.0.0 - 2012-02-13
 
 Breaking
   * AZ-94: Bump to terraform 0.12
