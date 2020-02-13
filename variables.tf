@@ -1,4 +1,9 @@
 # Generic paramters
+variable "location" {
+  description = "Location of the assignment"
+  type        = string
+}
+
 variable "location_short" {
   description = "Short string for Azure location."
   type        = string
@@ -51,8 +56,8 @@ variable "policy_parameters_content" {
 
 variable "policy_mode" {
   description = "The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`."
-  default     = "All"
   type        = string
+  default     = "All"
 }
 
 variable "policy_assignment_display_name" {
@@ -75,9 +80,4 @@ variable "policy_assignments" {
     parameters    = string,
     identity_type = string,
   }))
-}
-
-variable "location" {
-  description = "Location of the assignment"
-  type        = string
 }
