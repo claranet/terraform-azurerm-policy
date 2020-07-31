@@ -115,16 +115,6 @@ module "azure-region" {
   azure_region = var.azure_region
 }
 
-module "rg" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location    = module.azure-region.location
-  client_name = var.client_name
-  environment = var.environment
-  stack       = var.stack
-}
-
 module "policy-tags" {
   source  = "claranet/policy/azurerm"
   version = "x.x.x"
@@ -132,6 +122,7 @@ module "policy-tags" {
   client_name = var.client_name
   environment = var.environment
 
+  location       = module.azure-region.location
   location_short = module.azure-region.location_short
   stack          = var.stack
 
@@ -150,16 +141,17 @@ module "policy-tags" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | environment | Project environment | `string` | n/a | yes |
 | location | Location of the assignment | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
 | policy\_assignment\_description | A description to use for this Policy Assignment. | `string` | `""` | no |
 | policy\_assignment\_display\_name | A friendly display name to use for this Policy Assignment. | `string` | n/a | yes |
-| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope         = string,<br>    parameters    = string,<br>    identity_type = string,<br>  }))<br></pre> | n/a | yes |
+| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope         = string,<br>    parameters    = string,<br>    identity_type = string,<br>  }))</pre> | n/a | yes |
 | policy\_custom\_name | Optional custom name override for Azure policy | `string` | `""` | no |
 | policy\_description | The description of the policy definition. | `string` | `""` | no |
+| policy\_mgmt\_group\_id | Create the Policy Definition at the Management Group level | `string` | n/a | yes |
 | policy\_mode | The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`. | `string` | `"All"` | no |
 | policy\_name\_prefix | Optional prefix for subnet names | `string` | `""` | no |
 | policy\_parameters\_content | Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition. | `string` | n/a | yes |

@@ -1,3 +1,8 @@
+# v2.1.0 - Unreleased
+
+Added
+  * AZ-247: Add management group support
+
 # v2.0.0 - 2012-02-13
 
 Breaking

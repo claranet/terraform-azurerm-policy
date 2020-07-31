@@ -81,3 +81,9 @@ variable "policy_assignments" {
     identity_type = string,
   }))
 }
+
+variable "policy_mgmt_group_id" {
+  description = "Create the Policy Definition at the Management Group level"
+  type        = string
+  default     = null
+}
