@@ -2,10 +2,10 @@ resource "azurerm_policy_definition" "main-policy" {
   name        = coalesce(var.policy_custom_name, local.policy_name)
   description = coalesce(var.policy_description, local.policy_name)
 
-  policy_type         = "Custom"
-  mode                = var.policy_mode
-  display_name        = coalesce(var.policy_custom_name, local.policy_name)
-  management_group_id = var.policy_mgmt_group_id
+  policy_type           = "Custom"
+  mode                  = var.policy_mode
+  display_name          = coalesce(var.policy_custom_name, local.policy_name)
+  management_group_name = var.policy_mgmt_group_name
 
   policy_rule = var.policy_rule_content
   parameters  = var.policy_parameters_content

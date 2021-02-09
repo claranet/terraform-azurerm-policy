@@ -82,7 +82,7 @@ variable "policy_assignments" {
   }))
 }
 
-variable "policy_mgmt_group_id" {
+variable "policy_mgmt_group_name" {
   description = "Create the Policy Definition at the Management Group level"
   type        = string
   default     = null
