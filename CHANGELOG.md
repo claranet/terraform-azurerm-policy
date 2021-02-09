@@ -2,7 +2,7 @@
 
 Changed
   * AZ-398: Force lowercase on default generated name
-  * AZ-273: Module compatible terraform `v0.13+`
+  * AZ-273: Module compatible terraform `v0.13+` and `v0.14+`
   
 Breaking 
   * AZ-206: AzureRM 2.0 compatibility - variable `policy_mgmt_group_id` changed to `policy_mgmt_group_name`
