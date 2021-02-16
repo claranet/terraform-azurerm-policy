@@ -6,6 +6,7 @@ Changed
   
 Breaking 
   * AZ-206: AzureRM 2.0 compatibility - variable `policy_mgmt_group_id` changed to `policy_mgmt_group_name`
+  * AZ-447: rework naming generation (will cause policies recreation)
 
 # v2.1.0 - 2020-07-31
 

@@ -7,4 +7,3 @@ output "policy_assignment" {
   value       = azurerm_policy_assignment.assign-policy
   description = "Azure policy assignments map"
 }
-

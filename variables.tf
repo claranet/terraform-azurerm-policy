@@ -1,41 +1,12 @@
-# Generic paramters
-variable "location" {
-  description = "Location of the assignment"
-  type        = string
-}
-
-variable "location_short" {
-  description = "Short string for Azure location."
-  type        = string
-}
-
-variable "client_name" {
-  description = "Client name/account used in naming"
-  type        = string
-}
-
-variable "environment" {
-  description = "Project environment"
-  type        = string
-}
-
-variable "stack" {
-  description = "Project stack name"
-  type        = string
-}
-
-variable "policy_name_prefix" {
-  description = "Optional prefix for policy names"
+variable "policy_name" {
+  description = "The name of the policy definition. Defaults generated from display name"
   type        = string
   default     = ""
 }
 
-# Azure Policy specific parameters
-
-variable "policy_custom_name" {
-  description = "Optional custom name override for Azure policy"
+variable "policy_display_name" {
+  description = "The display name of the policy definition."
   type        = string
-  default     = ""
 }
 
 variable "policy_description" {
@@ -60,11 +31,6 @@ variable "policy_mode" {
   default     = "All"
 }
 
-variable "policy_assignment_display_name" {
-  description = "A friendly display name to use for this Policy Assignment."
-  type        = string
-}
-
 variable "policy_assignments" {
   description = "Map with maps to configure assignments. Map key is the name of the assignment."
   type = map(object({
@@ -73,6 +39,7 @@ variable "policy_assignments" {
     scope         = string,
     parameters    = string,
     identity_type = string,
+    location      = string,
   }))
 }
 
