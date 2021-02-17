@@ -25,7 +25,7 @@ variable "stack" {
 }
 
 variable "policy_name_prefix" {
-  description = "Optional prefix for subnet names"
+  description = "Optional prefix for policy names"
   type        = string
   default     = ""
 }
@@ -63,12 +63,6 @@ variable "policy_mode" {
 variable "policy_assignment_display_name" {
   description = "A friendly display name to use for this Policy Assignment."
   type        = string
-}
-
-variable "policy_assignment_description" {
-  description = "A description to use for this Policy Assignment."
-  type        = string
-  default     = ""
 }
 
 variable "policy_assignments" {
