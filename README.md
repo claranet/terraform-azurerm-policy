@@ -3,16 +3,14 @@
 
 This module creates an Azure Policy and assign it to a list of scopes IDs (Azure Susbcriptions or Resource Groups).
 
-## Requirements
+## Version compatibility
 
-* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.36
-
-## Terraform version compatibility
-
-| Module version | Terraform version |
-|----------------|-------------------|
-| >= 2.x.x       | >= 0.12.6         |
-| <  2.x.x       | 0.11.x            |
+| Module version | Terraform version | AzureRM version |
+|----------------|-------------------| --------------- |
+| >= 4.x.x       | 0.13.x            | >= 2.0          |
+| >= 3.x.x       | 0.12.x            | >= 2.0          |
+| >= 2.x.x       | 0.12.x            | < 2.0           |
+| <  2.x.x       | 0.11.x            | < 2.0           |
 
 ## Usage
 
@@ -135,7 +133,6 @@ module "policy-tags" {
   policy_assignment_display_name = "Tags to update"
   policy_assignments = local.policy_assignments
 }
-
 ```
 
 ## Inputs
@@ -146,14 +143,13 @@ module "policy-tags" {
 | environment | Project environment | `string` | n/a | yes |
 | location | Location of the assignment | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
-| policy\_assignment\_description | A description to use for this Policy Assignment. | `string` | `""` | no |
 | policy\_assignment\_display\_name | A friendly display name to use for this Policy Assignment. | `string` | n/a | yes |
 | policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope         = string,<br>    parameters    = string,<br>    identity_type = string,<br>  }))</pre> | n/a | yes |
 | policy\_custom\_name | Optional custom name override for Azure policy | `string` | `""` | no |
 | policy\_description | The description of the policy definition. | `string` | `""` | no |
-| policy\_mgmt\_group\_id | Create the Policy Definition at the Management Group level | `string` | n/a | yes |
+| policy\_mgmt\_group\_name | Create the Policy Definition at the Management Group level | `string` | `null` | no |
 | policy\_mode | The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`. | `string` | `"All"` | no |
-| policy\_name\_prefix | Optional prefix for subnet names | `string` | `""` | no |
+| policy\_name\_prefix | Optional prefix for policy names | `string` | `""` | no |
 | policy\_parameters\_content | Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition. | `string` | n/a | yes |
 | policy\_rule\_content | The policy rule for the policy definition. This is a json object representing the rule that contains an if and a then block. | `string` | n/a | yes |
 | stack | Project stack name | `string` | n/a | yes |

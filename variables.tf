@@ -25,7 +25,7 @@ variable "stack" {
 }
 
 variable "policy_name_prefix" {
-  description = "Optional prefix for subnet names"
+  description = "Optional prefix for policy names"
   type        = string
   default     = ""
 }
@@ -65,12 +65,6 @@ variable "policy_assignment_display_name" {
   type        = string
 }
 
-variable "policy_assignment_description" {
-  description = "A description to use for this Policy Assignment."
-  type        = string
-  default     = ""
-}
-
 variable "policy_assignments" {
   description = "Map with maps to configure assignments. Map key is the name of the assignment."
   type = map(object({
@@ -82,7 +76,7 @@ variable "policy_assignments" {
   }))
 }
 
-variable "policy_mgmt_group_id" {
+variable "policy_mgmt_group_name" {
   description = "Create the Policy Definition at the Management Group level"
   type        = string
   default     = null
