@@ -1,4 +1,4 @@
-resource "azurerm_policy_definition" "main-policy" {
+resource "azurerm_policy_definition" "main_policy" {
   name         = local.policy_name
   display_name = var.policy_display_name
   description  = coalesce(var.policy_description, var.policy_display_name)
@@ -11,10 +11,10 @@ resource "azurerm_policy_definition" "main-policy" {
   parameters  = var.policy_parameters_content
 }
 
-resource "azurerm_policy_assignment" "assign-policy" {
+resource "azurerm_policy_assignment" "assign_policy" {
   for_each             = var.policy_assignments
   name                 = each.key
-  policy_definition_id = azurerm_policy_definition.main-policy.id
+  policy_definition_id = azurerm_policy_definition.main_policy.id
   scope                = each.value.scope
 
   location     = each.value.location

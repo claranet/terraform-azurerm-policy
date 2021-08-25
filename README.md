@@ -143,8 +143,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_policy_assignment.assign-policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_assignment) | resource |
-| [azurerm_policy_definition.main-policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
+| [azurerm_policy_assignment.assign_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_assignment) | resource |
+| [azurerm_policy_definition.main_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 
 ## Inputs
 
