@@ -6,7 +6,8 @@ This module creates an Azure Policy and assign it to a list of scopes IDs (Azure
 ## Version compatibility
 
 | Module version | Terraform version | AzureRM version |
-|----------------|-------------------| --------------- |
+| -------------- | ----------------- | --------------- |
+| >= 5.x.x       | 0.15.x & 1.0.x    | >= 2.18         |
 | >= 4.x.x       | 0.13.x            | >= 2.0          |
 | >= 3.x.x       | 0.12.x            | >= 2.0          |
 | >= 2.x.x       | 0.12.x            | < 2.0           |
@@ -127,6 +128,24 @@ module "policy-tags" {
 }
 ```
 
+<!-- BEGIN_TF_DOCS -->
+## Providers
+
+| Name | Version |
+|------|---------|
+| azurerm | >= 2.18 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_policy_assignment.assign_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_assignment) | resource |
+| [azurerm_policy_definition.main_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -146,11 +165,7 @@ module "policy-tags" {
 |------|-------------|
 | policy\_assignment | Azure policy assignments map |
 | policy\_definition\_id | Azure policy ID |
-
+<!-- END_TF_DOCS -->
 ## Related documentation
-
-Terraform resource documentation:
-  * [azurerm_policy_definition](https://www.terraform.io/docs/providers/azurerm/r/policy_definition.html)
-  * [azurerm_policy_assignment](https://www.terraform.io/docs/providers/azurerm/r/policy_assignment.html)
 
 Microsoft Azure documentation: [docs.microsoft.com/en-us/azure/governance/policy/how-to/programmatically-create](https://docs.microsoft.com/en-us/azure/governance/policy/how-to/programmatically-create)
