@@ -1,13 +1,14 @@
 # Azure Policy
 [![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/policy/azurerm/)
 
-This module creates an Azure Policy and assign it to a list of scopes IDs (Azure Susbcriptions or Resource Groups).
+This module creates an Azure Policy definition and assign it to a list of scopes IDs (Azure Susbcriptions or Resource Groups).
 
-## Version compatibility
+<!-- BEGIN_TF_DOCS -->
+## Global versioning rule for Claranet Azure modules
 
 | Module version | Terraform version | AzureRM version |
 | -------------- | ----------------- | --------------- |
-| >= 5.x.x       | 0.15.x & 1.0.x    | >= 2.18         |
+| >= 5.x.x       | 0.15.x & 1.0.x    | >= 2.0          |
 | >= 4.x.x       | 0.13.x            | >= 2.0          |
 | >= 3.x.x       | 0.12.x            | >= 2.0          |
 | >= 2.x.x       | 0.12.x            | < 2.0           |
@@ -20,6 +21,13 @@ which set some terraform variables in the environment needed by this module.
 More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
 
 ```hcl
+module "azure_region" {
+  source  = "claranet/regions/azurerm"
+  version = "x.x.x"
+
+  azure_region = var.azure_region
+}
+
 locals {
   policy_tags_rule = <<RULE
 {
@@ -79,8 +87,8 @@ PARAMETERS
       display_name = "VMSS tags checking for my production subscription"
       description  = "VMSS tags checking for my production subscription"
       scope        = "/subscriptions/xxxxx",
-      location     = module.azure-region.location
-      parameters   = jsonencode({
+      location     = module.azure_region.location
+      parameters = jsonencode({
         environment = {
           value = "production"
         },
@@ -94,8 +102,8 @@ PARAMETERS
       display_name = "VMSS tags checking for my preproduction subscription"
       description  = "VMSS tags checking for my preproduction subscription"
       scope        = "/subscriptions/xxxxx",
-      location     = module.azure-region.location
-      parameters   = jsonencode({
+      location     = module.azure_region.location
+      parameters = jsonencode({
         env = {
           value = "preproduction"
         },
@@ -103,22 +111,15 @@ PARAMETERS
           value = "Claranet"
         }
       })
-      identity_type   = "None"
+      identity_type = "None"
     }
   }
 }
 
-module "azure-region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
-module "policy-tags" {
+module "policy_tags" {
   source  = "claranet/policy/azurerm"
   version = "x.x.x"
-  
+
   policy_display_name = "VMSS tagging policy"
 
   policy_rule_content       = local.policy_tags_rule
@@ -126,9 +127,9 @@ module "policy-tags" {
 
   policy_assignments = local.policy_assignments
 }
+
 ```
 
-<!-- BEGIN_TF_DOCS -->
 ## Providers
 
 | Name | Version |
@@ -166,6 +167,7 @@ No modules.
 | policy\_assignment | Azure policy assignments map |
 | policy\_definition\_id | Azure policy ID |
 <!-- END_TF_DOCS -->
+
 ## Related documentation
 
 Microsoft Azure documentation: [docs.microsoft.com/en-us/azure/governance/policy/how-to/programmatically-create](https://docs.microsoft.com/en-us/azure/governance/policy/how-to/programmatically-create)
