@@ -1,7 +1,7 @@
 # Azure Policy
 [![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/policy/azurerm/)
 
-This module creates an Azure Policy definition and assign it to a list of scopes IDs (Azure Susbcriptions or Resource Groups).
+This module creates an Azure Policy definition and assigns it to a list of scopes IDs (Azure Susbcriptions or Resource Groups).
 
 <!-- BEGIN_TF_DOCS -->
 ## Global versioning rule for Claranet Azure modules
