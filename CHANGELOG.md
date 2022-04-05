@@ -1,6 +1,11 @@
 # v5.0.0 - 2022-04-08
 
 Breaking
+  * AZ-717: AzureRM provider `v3.0` compatibility
+
+# Unreleased
+
+Breaking
   * AZ-515: Option to use Azure CAF naming provider to name resources
   * AZ-515: Require Terraform 0.13+
 
