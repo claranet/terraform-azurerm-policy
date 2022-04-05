@@ -63,7 +63,8 @@ PARAMETERS
     production = {
       display_name = "VMSS tags checking for my production subscription"
       description  = "VMSS tags checking for my production subscription"
-      scope        = "/subscriptions/xxxxx",
+      scope_id     = "/subscriptions/xxxxx"
+      scope_type   = "subscription"
       location     = module.azure_region.location
       parameters = jsonencode({
         environment = {
@@ -74,21 +75,21 @@ PARAMETERS
         }
       })
       identity_type = "SystemAssigned"
+      enforce       = false
     },
     preproduction = {
-      display_name = "VMSS tags checking for my preproduction subscription"
-      description  = "VMSS tags checking for my preproduction subscription"
-      scope        = "/subscriptions/xxxxx",
+      display_name = "VMSS tags checking for my Management group ABCD"
+      description  = "VMSS tags checking for my Management group ABCD"
+      scope_id     = "/providers/Microsoft.Management/managementGroups/group1"
+      scope_type   = "management-group"
       location     = module.azure_region.location
       parameters = jsonencode({
-        env = {
-          value = "preproduction"
-        },
         managed_by = {
           value = "Claranet"
         }
       })
       identity_type = "None"
+      enforce       = true
     }
   }
 }

@@ -87,7 +87,8 @@ PARAMETERS
     production = {
       display_name = "VMSS tags checking for my production subscription"
       description  = "VMSS tags checking for my production subscription"
-      scope        = "/subscriptions/xxxxx",
+      scope_id     = "/subscriptions/xxxxx"
+      scope_type   = "subscription"
       location     = module.azure_region.location
       parameters = jsonencode({
         environment = {
@@ -98,21 +99,21 @@ PARAMETERS
         }
       })
       identity_type = "SystemAssigned"
+      enforce       = false
     },
     preproduction = {
-      display_name = "VMSS tags checking for my preproduction subscription"
-      description  = "VMSS tags checking for my preproduction subscription"
-      scope        = "/subscriptions/xxxxx",
+      display_name = "VMSS tags checking for my Management group ABCD"
+      description  = "VMSS tags checking for my Management group ABCD"
+      scope_id     = "/providers/Microsoft.Management/managementGroups/group1"
+      scope_type   = "management-group"
       location     = module.azure_region.location
       parameters = jsonencode({
-        env = {
-          value = "preproduction"
-        },
         managed_by = {
           value = "Claranet"
         }
       })
       identity_type = "None"
+      enforce       = true
     }
   }
 }
@@ -135,7 +136,7 @@ module "policy_tags" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.1 |
-| azurerm | ~> 2.18 |
+| azurerm | ~> 3.0 |
 
 ## Modules
 
@@ -146,8 +147,11 @@ No modules.
 | Name | Type |
 |------|------|
 | [azurecaf_name.policy](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
-| [azurerm_policy_assignment.assign_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_assignment) | resource |
+| [azurerm_management_group_policy_assignment.assign_policy_mgmt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
 | [azurerm_policy_definition.main_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
+| [azurerm_resource_group_policy_assignment.assign_policy_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_policy_assignment) | resource |
+| [azurerm_resource_policy_assignment.assign_policy_res](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_policy_assignment) | resource |
+| [azurerm_subscription_policy_assignment.assign_policy_sub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subscription_policy_assignment) | resource |
 
 ## Inputs
 
@@ -155,7 +159,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
 | name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
-| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope         = string,<br>    parameters    = string,<br>    identity_type = string,<br>    location      = string,<br>  }))</pre> | n/a | yes |
+| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope_id      = string,<br>    scope_type    = string,<br>    parameters    = string,<br>    identity_type = string,<br>    location      = string,<br>    enforce       = bool,<br>  }))</pre> | n/a | yes |
 | policy\_description | The description of the policy definition. | `string` | `""` | no |
 | policy\_display\_name | The display name of the policy definition. | `string` | n/a | yes |
 | policy\_mgmt\_group\_name | Create the Policy Definition at the Management Group level | `string` | `null` | no |
@@ -169,7 +173,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| policy\_assignment | Azure policy assignments map |
 | policy\_definition\_id | Azure policy ID |
 <!-- END_TF_DOCS -->
 

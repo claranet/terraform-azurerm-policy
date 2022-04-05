@@ -30,11 +30,18 @@ variable "policy_assignments" {
   type = map(object({
     display_name  = string,
     description   = string,
-    scope         = string,
+    scope_id      = string,
+    scope_type    = string,
     parameters    = string,
     identity_type = string,
     location      = string,
+    enforce       = bool,
   }))
+
+  validation {
+    condition     = can([for p in var.policy_assignments : contains(["subscription", "management-group", "resource-group", "resource"], lower(p.scope_type))])
+    error_message = "The `policy_assignments[*].scope_type` value must be valid. Possible values are `subscription`, `management-group`, `resource-group` or `resource`."
+  }
 }
 
 variable "policy_mgmt_group_name" {
