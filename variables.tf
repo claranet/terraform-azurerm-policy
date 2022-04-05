@@ -1,9 +1,3 @@
-variable "policy_name" {
-  description = "The name of the policy definition. Defaults generated from display name"
-  type        = string
-  default     = ""
-}
-
 variable "policy_display_name" {
   description = "The display name of the policy definition."
   type        = string

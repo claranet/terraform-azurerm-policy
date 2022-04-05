@@ -134,7 +134,8 @@ module "policy_tags" {
 
 | Name | Version |
 |------|---------|
-| azurerm | >= 2.18 |
+| azurecaf | ~> 1.1 |
+| azurerm | ~> 2.18 |
 
 ## Modules
 
@@ -144,6 +145,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [azurecaf_name.policy](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
 | [azurerm_policy_assignment.assign_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_assignment) | resource |
 | [azurerm_policy_definition.main_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 
@@ -151,14 +153,17 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
+| name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
 | policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope         = string,<br>    parameters    = string,<br>    identity_type = string,<br>    location      = string,<br>  }))</pre> | n/a | yes |
 | policy\_description | The description of the policy definition. | `string` | `""` | no |
 | policy\_display\_name | The display name of the policy definition. | `string` | n/a | yes |
 | policy\_mgmt\_group\_name | Create the Policy Definition at the Management Group level | `string` | `null` | no |
 | policy\_mode | The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`. | `string` | `"All"` | no |
-| policy\_name | The name of the policy definition. Defaults generated from display name | `string` | `""` | no |
+| policy\_name | The name of the policy definition. Defaults generated from CAF Provider or display name if CAF is disabled. | `string` | `""` | no |
 | policy\_parameters\_content | Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition. | `string` | n/a | yes |
 | policy\_rule\_content | The policy rule for the policy definition. This is a json object representing the rule that contains an if and a then block. | `string` | n/a | yes |
+| use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `policy_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 
 ## Outputs
 
