@@ -1,4 +1,4 @@
-# Unreleased
+# v6.0.0 - 2022-05-13
 
 Breaking
   * AZ-717: AzureRM provider `v3.0` compatibility
