@@ -136,7 +136,7 @@ module "policy_tags" {
 
 | Name | Version |
 |------|---------|
-| azurecaf | ~> 1.1 |
+| azurecaf | ~> 1.2, >= 1.2.22 |
 | azurerm | ~> 3.0 |
 
 ## Modules
@@ -147,12 +147,12 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurecaf_name.policy](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
 | [azurerm_management_group_policy_assignment.assign_policy_mgmt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
 | [azurerm_policy_definition.main_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_resource_group_policy_assignment.assign_policy_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_policy_assignment) | resource |
 | [azurerm_resource_policy_assignment.assign_policy_res](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_policy_assignment) | resource |
 | [azurerm_subscription_policy_assignment.assign_policy_sub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subscription_policy_assignment) | resource |
+| [azurecaf_name.policy](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/data-sources/name) | data source |
 
 ## Inputs
 
