@@ -1,4 +1,4 @@
-resource "azurecaf_name" "policy" {
+data "azurecaf_name" "policy" {
   name          = var.policy_display_name
   resource_type = "azurerm_resource_group"
   prefixes      = compact([local.name_prefix, var.use_caf_naming ? "policy" : ""])
