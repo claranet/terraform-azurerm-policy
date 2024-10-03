@@ -167,7 +167,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
 | name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
-| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br>    display_name  = string,<br>    description   = string,<br>    scope_id      = string,<br>    scope_type    = string,<br>    parameters    = string,<br>    identity_type = string,<br>    location      = string,<br>    enforce       = bool,<br>  }))</pre> | n/a | yes |
+| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br/>    display_name  = string,<br/>    description   = string,<br/>    scope_id      = string,<br/>    scope_type    = string,<br/>    parameters    = string,<br/>    identity_type = string,<br/>    location      = string,<br/>    enforce       = bool,<br/>  }))</pre> | n/a | yes |
 | policy\_description | The description of the policy definition. | `string` | `""` | no |
 | policy\_display\_name | The display name of the policy definition. | `string` | n/a | yes |
 | policy\_mgmt\_group\_name | Create the Policy Definition at the Management Group level | `string` | `null` | no |
