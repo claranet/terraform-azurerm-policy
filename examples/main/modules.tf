@@ -1,10 +1,3 @@
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
 locals {
   policy_tags_rule = <<RULE
 {
@@ -98,10 +91,10 @@ module "policy_tags" {
   source  = "claranet/policy/azurerm"
   version = "x.x.x"
 
-  policy_display_name = "VMSS tagging policy"
+  display_name = "VMSS tagging policy"
 
-  policy_rule_content       = local.policy_tags_rule
-  policy_parameters_content = local.policy_tags_parameters
+  rule_content       = local.policy_tags_rule
+  parameters_content = local.policy_tags_parameters
 
-  policy_assignments = local.policy_assignments
+  assignments = local.policy_assignments
 }
