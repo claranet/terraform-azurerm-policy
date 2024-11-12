@@ -1,4 +1,4 @@
-## 7.0.0 (2024-11-12)
+## 8.0.0/7.0.0 (2024-11-12)
 
 ### ⚠ BREAKING CHANGES
 
@@ -124,8 +124,8 @@ Changed
 Changed
   * AZ-398: Force lowercase on default generated name
   * AZ-273: Module compatible terraform `v0.13+` and `v0.14+`
-  
-Breaking 
+
+Breaking
   * AZ-206: AzureRM 2.0 compatibility - variable `policy_mgmt_group_id` changed to `policy_mgmt_group_name`
   * AZ-447: rework naming generation (will cause policies recreation)
 
@@ -139,7 +139,7 @@ Added
 Breaking
   * AZ-94: Bump to terraform 0.12
   * AZ-154: Allow to assign the policy multiple times
-  
+
 # v1.0.0 - 2019-11-15
 
 Added
