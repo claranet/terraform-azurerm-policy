@@ -1,3 +1,13 @@
+## 8.0.0 (2024-11-12)
+
+### ⚠ BREAKING CHANGES
+
+* update CHANGELOG
+
+### Features
+
+* update CHANGELOG 8b86764
+
 ## 8.0.0/7.0.0 (2024-11-12)
 
 ### ⚠ BREAKING CHANGES
