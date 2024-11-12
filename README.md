@@ -34,13 +34,6 @@ More details about variables set by the `terraform-wrapper` available in the [do
 [Hashicorp Terraform](https://github.com/hashicorp/terraform/). Instead, we recommend to use [OpenTofu](https://github.com/opentofu/opentofu/).
 
 ```hcl
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
 locals {
   policy_tags_rule = <<RULE
 {
@@ -134,12 +127,12 @@ module "policy_tags" {
   source  = "claranet/policy/azurerm"
   version = "x.x.x"
 
-  policy_display_name = "VMSS tagging policy"
+  display_name = "VMSS tagging policy"
 
-  policy_rule_content       = local.policy_tags_rule
-  policy_parameters_content = local.policy_tags_parameters
+  rule_content       = local.policy_tags_rule
+  parameters_content = local.policy_tags_parameters
 
-  policy_assignments = local.policy_assignments
+  assignments = local.policy_assignments
 }
 ```
 
@@ -147,8 +140,8 @@ module "policy_tags" {
 
 | Name | Version |
 |------|---------|
-| azurecaf | ~> 1.2, >= 1.2.22 |
-| azurerm | ~> 3.0 |
+| azurecaf | ~> 1.2.28 |
+| azurerm | ~> 4.0 |
 
 ## Modules
 
@@ -158,34 +151,34 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_management_group_policy_assignment.assign_policy_mgmt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
-| [azurerm_policy_definition.main_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
-| [azurerm_resource_group_policy_assignment.assign_policy_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_policy_assignment) | resource |
-| [azurerm_resource_policy_assignment.assign_policy_res](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_policy_assignment) | resource |
-| [azurerm_subscription_policy_assignment.assign_policy_sub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subscription_policy_assignment) | resource |
+| [azurerm_management_group_policy_assignment.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
+| [azurerm_policy_definition.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
+| [azurerm_resource_group_policy_assignment.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_policy_assignment) | resource |
+| [azurerm_resource_policy_assignment.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_policy_assignment) | resource |
+| [azurerm_subscription_policy_assignment.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subscription_policy_assignment) | resource |
 | [azurecaf_name.policy](https://registry.terraform.io/providers/claranet/azurecaf/latest/docs/data-sources/name) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
-| name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
-| policy\_assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br/>    display_name  = string,<br/>    description   = string,<br/>    scope_id      = string,<br/>    scope_type    = string,<br/>    parameters    = string,<br/>    identity_type = string,<br/>    location      = string,<br/>    enforce       = bool,<br/>  }))</pre> | n/a | yes |
-| policy\_description | The description of the policy definition. | `string` | `""` | no |
-| policy\_display\_name | The display name of the policy definition. | `string` | n/a | yes |
-| policy\_mgmt\_group\_name | Create the Policy Definition at the Management Group level | `string` | `null` | no |
-| policy\_mode | The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`. | `string` | `"All"` | no |
-| policy\_name | The name of the policy definition. Defaults generated from CAF Provider or display name if CAF is disabled. | `string` | `""` | no |
-| policy\_parameters\_content | Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition. | `string` | n/a | yes |
-| policy\_rule\_content | The policy rule for the policy definition. This is a json object representing the rule that contains an if and a then block. | `string` | n/a | yes |
-| use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `policy_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
+| assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br/>    display_name  = string<br/>    description   = string<br/>    scope_id      = string<br/>    scope_type    = string<br/>    parameters    = string<br/>    identity_type = string<br/>    location      = string<br/>    enforce       = bool<br/>  }))</pre> | n/a | yes |
+| custom\_name | The name of the policy definition. Defaults generated. | `string` | `""` | no |
+| description | The description of the policy definition. | `string` | `""` | no |
+| display\_name | The display name of the policy definition. | `string` | n/a | yes |
+| mgmt\_group\_name | Create the Policy Definition at the Management Group level. | `string` | `null` | no |
+| mode | The policy mode that allows you to specify which resource types will be evaluated. The value can be `All`, `Indexed` or `NotSpecified`. | `string` | `"All"` | no |
+| name\_prefix | Optional prefix for the generated name. | `string` | `""` | no |
+| name\_suffix | Optional suffix for the generated name. | `string` | `""` | no |
+| parameters\_content | Parameters for the policy definition. This field is a json object that allows you to parameterize your policy definition. | `string` | n/a | yes |
+| rule\_content | The policy rule for the policy definition. This is a json object representing the rule that contains an if and a then block. | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| policy\_definition\_id | Azure policy ID |
+| definition\_id | Azure policy definition ID. |
+| resource | Azure policy resource object. |
 <!-- END_TF_DOCS -->
 
 ## Related documentation
