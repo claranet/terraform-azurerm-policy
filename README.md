@@ -178,6 +178,11 @@ No modules.
 | Name | Description |
 |------|-------------|
 | definition\_id | Azure policy definition ID. |
+| policy\_assignment\_management\_group\_identity\_principal\_id | The principal ID of the identity for management group policy assignments. |
+| policy\_assignment\_resource\_group\_identity\_principal\_id | The principal ID of the identity for resource group policy assignments. |
+| policy\_assignment\_resource\_identity\_principal\_id | The principal ID of the identity for resource-level policy assignments. |
+| policy\_assignment\_subscription\_identity\_principal\_id | The principal ID of the identity for subscription policy assignments. |
+| policy\_assignments\_identity\_principal\_id | The principal ID of the identity for policy assignments. |
 | resource | Azure policy resource object. |
 <!-- END_TF_DOCS -->
 
