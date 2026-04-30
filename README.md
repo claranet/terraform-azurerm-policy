@@ -139,7 +139,7 @@ module "policy_tags" {
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | azurecaf | >= 1.2.28 |
 | azurerm | ~> 4.31 |
 
@@ -150,7 +150,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_management_group_policy_assignment.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
 | [azurerm_policy_definition.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_resource_group_policy_assignment.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_policy_assignment) | resource |
@@ -161,7 +161,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | assignments | Map with maps to configure assignments. Map key is the name of the assignment. | <pre>map(object({<br/>    display_name  = string<br/>    description   = string<br/>    scope_id      = string<br/>    scope_type    = string<br/>    parameters    = string<br/>    identity_type = string<br/>    location      = string<br/>    enforce       = bool<br/>  }))</pre> | n/a | yes |
 | custom\_name | The name of the policy definition. Defaults generated. | `string` | `""` | no |
 | description | The description of the policy definition. | `string` | `""` | no |
@@ -176,7 +176,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | definition\_id | Azure policy definition ID. |
 | policy\_assignment\_management\_group\_identity\_principal\_id | The principal ID of the identity for management group policy assignments. |
 | policy\_assignment\_resource\_group\_identity\_principal\_id | The principal ID of the identity for resource group policy assignments. |
