@@ -6,6 +6,7 @@ output "definition_id" {
 output "resource" {
   description = "Azure policy resource object."
   value       = azurerm_policy_definition.main.id
+  sensitive   = true
 }
 
 output "policy_assignments_identity_principal_id" {
